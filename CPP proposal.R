@@ -1,6 +1,6 @@
 
-# Script mestre a apresentação de dados da proposta do Computational Public 
-# Policy Lab (CPP)
+# Script for graphs and data citation in Computational Public 
+# Policy Lab (CPP) proposal 
 
 #clean memory
 rm(list=ls(all=TRUE))
@@ -180,15 +180,17 @@ rm(IpeaData)
 
 # GDP Grow Graph
 
+## Select data
 GDPGrowGraphData <- WBDataFilter %>%
   filter(indicatorID == "NY.GDP.MKTP.KD.ZG") %>%
   filter(date >= 1988) %>%
   select(country, date, value)
 
-names(GDPGrowGraphData)
 
+## Set graph data
 GDPGrowGraph <- ggplot(GDPGrowGraphData, aes(x = date, y = value, group=country))
 
+## graph formating
 GDPGrowGraph <- GDPGrowGraph +
   geom_line(aes(color=country), size=1.2) +
   geom_point(aes(color=country)) +
@@ -201,14 +203,16 @@ GDPGrowGraph <- GDPGrowGraph +
         legend.text = element_text(size = 14),
         plot.title = element_text(size = 18, face = "bold"))
 
-
+## Show graph
 GDPGrowGraph
 
+# Clean menory
 rm(GDPGrowGraphData, GDPGrowGraph)
 
 
-# Gini
+# Gini and poverty graph
 
+## Select data
 GiniGraphData <- WBDataFilter %>%
   # filter(indicatorID %in% c("SI.POV.GINI", "SI.POV.DDAY")) %>%
   filter(indicatorID %in% c("GiniIpea", "PovertyIpea")) %>%
@@ -217,10 +221,11 @@ GiniGraphData <- WBDataFilter %>%
   select(country, date, indicatorID ,  value) %>%
   spread(indicatorID, value)
 
-names(GiniGraphData)
 
+## Set graph data
 GiniGraph <- ggplot(GiniGraphData, aes(x = date, group=country))
 
+## graph formating
 GiniGraph <- GiniGraph +
   #geom_line(aes(y = SI.POV.GINI, color="Gini"), size=1.2) + 
   #geom_line(aes(y = SI.POV.DDAY*3, color="Extreme Poverty"), size=1.2) +
@@ -236,9 +241,11 @@ GiniGraph <- GiniGraph +
         legend.text = element_text(size = 14),
         plot.title = element_text(size = 18, face = "bold"))
 
-# legend.position="none"
+
+## Show graph
 GiniGraph
 
+# Clean mempry
 rm(GiniGraphData , GiniGraph)
 
 
@@ -266,7 +273,7 @@ GiniRank <- WBData %>%
 
 
 # Brazil's position on unequality rank
-which(GiniRank$country == "Brazil") # Brazil is the 8st more inequal country in the World
+which(GiniRank$country == "Brazil") # Brazil is the 8st more unequal country in the World
 
 
 # Clean memory
